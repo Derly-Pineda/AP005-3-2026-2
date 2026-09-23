@@ -1,45 +1,30 @@
-tope_rango = 100  # Aumenta el alcance del cálculo hasta 100
+import time  # Importa el módulo 'time' para medir el tiempo transcurrido
+inicio = (
+    time.time()
+)  # Registra la marca de tiempo exacta al iniciar la ejecución del script
 
-# --- Medición SIN break ---
-ciclos_sin_break = 0  # Acumulador de ciclos para la versión ineficiente
-n = 0  # Inicializa el conteo en 0
-primo = True  # Estado inicial
-while n < tope_rango:  # Recorre el rango extendido
-    for div in range(2, n):  # Bucle completo de divisores
-        ciclos_sin_break += 1  # Registra la ejecución
-        if n % div == 0:  # Comprueba divisibilidad
-            primo = False  # Marca como no primo
-    if primo:  # Muestra primos hallados
-        print(n)
-    else:  # Si no fue primo...
-        primo = True  # Restablece el flag
-    n += 1  # Avanza al siguiente número
+for i in range(
+    0, 31
+):  # Recorre los números enteros 'i' desde 0 hasta 30 inclusive (31 es exclusivo)
+    conta = 0  # Inicializa el contador de divisores en 0 para cada número 'i'
+    for n in range(
+        1, i + 1
+    ):  # Recorre los posibles divisores 'n' desde 1 hasta el número actual 'i'
+        residue = i % n  # Calcula el residuo de dividir 'i' entre 'n'
+        if (
+            residue == 0
+        ):  # Si el residuo es 0, 'n' es un divisor exacto de 'i'
+            conta = (
+                conta + 1
+            )  # Incrementa el contador de divisores en 1 si la división es exacta
+    if (
+        conta == 2
+    ):  # Evalúa si el número 'i' tiene exactamente 2 divisores (condición clásica de número primo)
+        print(
+            f"{i} es un primo"
+        )  # Imprime el número 'i' si cumple con ser primo
 
+fin = time.time()  # Registra la marca de tiempo exacta al finalizar el ciclo
 print(
-    "Cantidad de ciclos: " + str(ciclos_sin_break)
-)  # Muestra el total sin break (4753)
-
-# --- Medición CON break ---
-ciclos_con_break = 0  # Acumulador de ciclos para la versión eficiente
-n = 0  # Reinicia la variable de control
-primo = True  # Estado inicial
-while n < tope_rango:  # Recorre el rango extendido
-    for div in range(2, n):  # Bucle con parada temprana
-        ciclos_con_break += 1  # Registra la ejecución
-        if n % div == 0:  # Comprueba divisibilidad
-            primo = False  # Marca como no primo
-            break  # Sale del ciclo for inmediatamente al hallar un divisor
-    if primo:  # Muestra primos hallados
-        print(n)
-    else:  # Si no fue primo...
-        primo = True  # Restablece el flag
-    n += 1  # Avanza al siguiente número
-
-print(
-    "Cantidad de ciclos: " + str(ciclos_con_break)
-)  # Muestra el total con break (1132)
-print(
-    "Se optimizó a un "
-    + str(ciclos_con_break / ciclos_sin_break * 100)
-    + "% de ciclos aplicando break"
-)  # Demuestra mayor impacto porcentual en rangos más grandes (~23.81%)
+    "t = ", (fin - inicio) * 1000
+)  # Calcula el tiempo total de ejecución restando inicio de fin, lo convierte a milisegundos (*1000) y lo imprime
